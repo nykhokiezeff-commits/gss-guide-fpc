@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSS — Guide FPC Chirurgical</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1318;
+    --bg3: #111820;
+    --card: #131c24;
+    --border: #1e2d3a;
+    --border2: #243547;
+    --accent: #00c6ff;
+    --accent2: #0075ff;
+    --red: #ff3b3b;
+    --red2: #c0392b;
+    --green: #00e87a;
+    --orange: #ff9f1c;
+    --yellow: #ffe03d;
+    --text: #e8f0f7;
+    --text2: #8da5b8;
+    --text3: #4d6578;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── SCANLINE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,198,255,0.015) 2px, rgba(0,198,255,0.015) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  nav {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 240px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .nav-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .nav-logo h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .nav-logo p {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .nav-section {
+    padding: 16px 16px 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+    position: relative;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(0,198,255,0.05);
+    padding-left: 22px;
+  }
+
+  nav a .icon { font-size: 14px; width: 18px; text-align: center; }
+
+  .nav-warning {
+    margin: 16px;
+    padding: 10px 12px;
+    background: rgba(255,59,59,0.08);
+    border: 1px solid rgba(255,59,59,0.25);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--red);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    margin-left: 240px;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 60px 60px;
+    background: linear-gradient(135deg, #080c10 0%, #0a1520 50%, #050a0f 100%);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: 'GSS';
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    color: rgba(0,198,255,0.04);
+    pointer-events: none;
+    line-height: 1;
+    letter-spacing: -5px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,198,255,0.1);
+    border: 1px solid rgba(0,198,255,0.3);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .hero-tag::before { content: '●'; font-size: 8px; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    letter-spacing: 3px;
+    line-height: 0.95;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .hero h2 span { color: var(--accent); }
+
+  .hero p {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 36px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  /* ── CONTENT SECTIONS ── */
+  .content {
+    padding: 0 60px 80px;
+  }
+
+  section {
+    padding-top: 60px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 28px;
+  }
+
+  .section-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .section-header .icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(0,198,255,0.1);
+    border: 1px solid rgba(0,198,255,0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ── ALERT BOXES ── */
+  .alert {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+  }
+
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .alert-danger {
+    background: rgba(255,59,59,0.08);
+    border: 1px solid rgba(255,59,59,0.3);
+    border-left: 3px solid var(--red);
+    color: #ffb3b3;
+  }
+
+  .alert-danger strong { color: var(--red); }
+
+  .alert-warning {
+    background: rgba(255,159,28,0.08);
+    border: 1px solid rgba(255,159,28,0.3);
+    border-left: 3px solid var(--orange);
+    color: #ffd8a8;
+  }
+
+  .alert-warning strong { color: var(--orange); }
+
+  .alert-info {
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.25);
+    border-left: 3px solid var(--accent);
+    color: #b3e8ff;
+  }
+
+  .alert-info strong { color: var(--accent); }
+
+  .alert-success {
+    background: rgba(0,232,122,0.08);
+    border: 1px solid rgba(0,232,122,0.25);
+    border-left: 3px solid var(--green);
+    color: #b3ffd6;
+  }
+
+  .alert-success strong { color: var(--green); }
+
+  /* ── CARDS GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+
+  .card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .card p, .card li {
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .card ul { padding-left: 16px; }
+  .card li { margin-bottom: 4px; }
+
+  /* ── RULE LIST ── */
+  .rule-list {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+  .rule-item:hover { background: rgba(255,255,255,0.02); }
+
+  .rule-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 28px;
+    padding-top: 3px;
+  }
+
+  .rule-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .rule-content span {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .rule-tag {
+    margin-left: auto;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .tag-critical { background: rgba(255,59,59,0.15); color: var(--red); border: 1px solid rgba(255,59,59,0.3); }
+  .tag-important { background: rgba(255,159,28,0.15); color: var(--orange); border: 1px solid rgba(255,159,28,0.3); }
+  .tag-standard { background: rgba(0,198,255,0.1); color: var(--accent); border: 1px solid rgba(0,198,255,0.25); }
+
+  /* ── STEPS ── */
+  .steps { margin-bottom: 24px; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 8px;
+  }
+
+  .step-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 2px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .step-connector {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    min-height: 16px;
+    margin: 4px 0;
+  }
+
+  .step-body {
+    padding: 4px 0 20px;
+    flex: 1;
+  }
+
+  .step-body h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-body p {
+    font-size: 13.5px;
+    color: var(--text2);
+  }
+
+  .step-body ul {
+    padding-left: 18px;
+    margin-top: 6px;
+  }
+
+  .step-body li {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 3px;
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: var(--bg3);
+  }
+
+  thead th {
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.025); }
+
+  tbody td {
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: var(--text2);
+    vertical-align: top;
+  }
+
+  tbody td:first-child { color: var(--text); font-weight: 500; }
+
+  td .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* ── FORBIDDEN ZONE ── */
+  .forbidden-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .forbidden-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255,59,59,0.06);
+    border: 1px solid rgba(255,59,59,0.2);
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: #ffb3b3;
+  }
+
+  .forbidden-item::before {
+    content: '✕';
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── DRUG TABLE ── */
+  .drug-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .drug-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .drug-card:hover { border-color: var(--accent); }
+
+  .drug-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .drug-class {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .drug-info {
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* ── BLOOD COMPAT ── */
+  .blood-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .blood-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .blood-type {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--red);
+    letter-spacing: 2px;
+  }
+
+  .blood-label {
+    font-size: 10px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 4px 0;
+  }
+
+  .blood-compat {
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  /* ── CASE CLINIQUE ── */
+  .case-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .case-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .case-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .case-urgency {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  .urgency-critical { background: rgba(255,59,59,0.2); color: var(--red); border: 1px solid rgba(255,59,59,0.4); }
+  .urgency-high { background: rgba(255,159,28,0.2); color: var(--orange); border: 1px solid rgba(255,159,28,0.4); }
+  .urgency-medium { background: rgba(255,224,61,0.2); color: var(--yellow); border: 1px solid rgba(255,224,61,0.4); }
+
+  .case-body {
+    padding: 20px;
+    display: none;
+  }
+
+  .case-body.open { display: block; }
+
+  .case-toggle { color: var(--text3); font-size: 12px; transition: transform 0.2s; }
+  .case-toggle.open { transform: rotate(180deg); }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .price-tier {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .price-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 32px 0;
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: rgba(0,198,255,0.1);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(0,198,255,0.2);
+  }
+
+  /* ── SUBHEADING ── */
+  h3.sub {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  h3.sub::before {
+    content: '';
+    width: 3px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  p.desc { font-size: 14px; color: var(--text2); margin-bottom: 16px; line-height: 1.8; }
+
+  /* ── TENUE SECTION ── */
+  .tenue-checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(0,232,122,0.06);
+    border: 1px solid rgba(0,232,122,0.2);
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: #b3ffd6;
+  }
+
+  .check-item::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg2);
+  }
+
+  footer p { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* ── PULSE DOT ── */
+  .live-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100%{box-shadow:0 0 0 0 rgba(0,232,122,0.4)}
+    50%{box-shadow:0 0 0 6px rgba(0,232,122,0)}
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    nav{display:none}
+    main{margin-left:0}
+    .hero,.content{padding-left:24px;padding-right:24px}
+    .grid-2,.grid-3,.grid-4,.forbidden-grid,.drug-grid,.blood-grid,.pricing-grid{grid-template-columns:1fr 1fr}
+    .tenue-checklist{grid-template-columns:1fr}
+  }
+
+  @media(max-width:600px){
+    .grid-2,.grid-3,.grid-4,.forbidden-grid,.drug-grid,.blood-grid,.pricing-grid{grid-template-columns:1fr}
+    .hero h2{font-size:40px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ SIDEBAR ════════════════════════ -->
+<nav>
+  <div class="nav-logo">
+    <span class="badge">● General Surgery Service</span>
+    <h1>GSS FPC</h1>
+    <p>GUIDE CHIRURGICAL</p>
+  </div>
+
+  <div class="nav-section">Vue d'ensemble</div>
+  <a href="#intro" class="active"><span class="icon">🏥</span> Introduction FPC</a>
+  <a href="#conduite"><span class="icon">📋</span> Code de conduite</a>
+  <a href="#tenue"><span class="icon">🥼</span> Tenue & Hygiène</a>
+
+  <div class="nav-section">Matériel</div>
+  <a href="#materiel"><span class="icon">🔪</span> Matériel chirurgical</a>
+  <a href="#imagerie"><span class="icon">🩻</span> Imagerie médicale</a>
+
+  <div class="nav-section">Protocoles</div>
+  <a href="#pre-op"><span class="icon">📝</span> Pré-opératoire</a>
+  <a href="#per-op"><span class="icon">⚕️</span> Per-opératoire</a>
+  <a href="#post-op"><span class="icon">🔄</span> Post-opératoire</a>
+
+  <div class="nav-section">Pathologies</div>
+  <a href="#brulures"><span class="icon">🔥</span> Brûlures</a>
+  <a href="#cas"><span class="icon">📁</span> Cas cliniques</a>
+
+  <div class="nav-section">Référence</div>
+  <a href="#pharma"><span class="icon">💊</span> Pharmacologie</a>
+  <a href="#sang"><span class="icon">🩸</span> Groupes sanguins</a>
+  <a href="#tarif"><span class="icon">💰</span> Tarification</a>
+  <a href="#mfa"><span class="icon">📂</span> MFA & Dossiers</a>
+
+  <div class="nav-warning">⚠ Document interne — GSS réservé aux membres autorisés</div>
+</nav>
+
+<!-- ════════════════════════ MAIN ════════════════════════ -->
+<main>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-tag">GUIDE OFFICIEL FPC</div>
+    <h2>FORMATION<br><span>FORMATEUR</span><br>CHIRURGICAL</h2>
+    <p>Référentiel complet à destination des internes et formateurs FPC du General Surgery Service. Maîtrisez chaque protocole, chaque geste, chaque règle avant d'entrer en salle d'opération.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">9</span><span class="stat-label">Modules</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Étapes op.</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">Degrés brûlures</span></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Cas cliniques</span></div>
+    </div>
+  </div>
+
+  <!-- ════ CONTENT ════ -->
+  <div class="content">
+
+    <!-- ─── INTRO FPC ─── -->
+    <section id="intro">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <div class="icon">🏥</div>
+        <h2>INTRODUCTION À LA FPC</h2>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>
+          <strong>Qu'est-ce que la FPC ?</strong><br>
+          La FPC (Formation de Premier Cycle) représente la <strong>première étape de votre parcours médical et opérationnel</strong>. Elle forme des intervenants capables de gérer des situations d'urgence dites "simples", mais qui exigent une exécution rigoureuse et méthodique.
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>🎯 Votre rôle en FPC</h3>
+          <ul>
+            <li>Maîtriser les <strong>fondamentaux chirurgicaux</strong></li>
+            <li>Intervenir rapidement et appliquer les protocoles correctement</li>
+            <li>Sécuriser le patient à chaque étape</li>
+            <li>Respecter les règles d'hygiène et d'asepsie</li>
+            <li>Veiller au bon déroulement du processus complet (pré → per → post-op)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>⚠️ Ce que la FPC n'est PAS</h3>
+          <ul>
+            <li>Pas d'analyse complexe ou de spécialisation avancée</li>
+            <li>Pas d'improvisation — tout geste doit suivre un protocole</li>
+            <li>Pas de place pour l'approximation ou la négligence</li>
+            <li>Pas de prise de décision solitaire sans validation médicale</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <span class="alert-icon">✅</span>
+        <div>
+          <strong>La FPC est votre première marche vers l'excellence :</strong> chaque geste maîtrisé ici comptera pour la suite de votre parcours au sein du GSS.
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── CODE DE CONDUITE ─── -->
+    <section id="conduite">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <div class="icon">📋</div>
+        <h2>CODE DE CONDUITE FPC</h2>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">🚨</span>
+        <div>
+          <strong>RÈGLES ABSOLUES — Tout manquement grave entraîne une sanction disciplinaire.</strong><br>
+          Ces règles ne sont pas des recommandations, elles sont obligatoires sans exception.
+        </div>
+      </div>
+
+      <div class="rule-list">
+        <div class="rule-item">
+          <span class="rule-num">R01</span>
+          <div class="rule-content">
+            <strong>Accès interdit pendant une opération sans autorisation</strong>
+            <span>Aucune entrée en salle d'opération sans avoir reçu une autorisation explicite du responsable médical.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R02</span>
+          <div class="rule-content">
+            <strong>Tenue réglementaire obligatoire</strong>
+            <span>Charlotte, masque chirurgical, gants stériles et surblouse en permanence dans le bloc.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R03</span>
+          <div class="rule-content">
+            <strong>Aucun bijou, montre ou accessoire personnel</strong>
+            <span>Interdiction absolue de porter tout bijou, montre, lunettes de soleil ou accessoire non réglementaire.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R04</span>
+          <div class="rule-content">
+            <strong>Lavage chirurgical des mains obligatoire</strong>
+            <span>Obligatoire avant toute entrée en zone stérile. Utiliser la technique validée par le GSS.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R05</span>
+          <div class="rule-content">
+            <strong>Téléphone et radio interdits</strong>
+            <span>Sauf en cas de 10-32 ou Code 0. En cas de Code 0 : déclenchement immédiat d'un 10-32.</span>
+          </div>
+          <span class="rule-tag tag-important">IMPORTANT</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R06</span>
+          <div class="rule-content">
+            <strong>Maximum 2 personnes dans le bloc</strong>
+            <span>Exception uniquement pour les accouchements où la présence d'une grosse équipe GSS est requise.</span>
+          </div>
+          <span class="rule-tag tag-important">IMPORTANT</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R07</span>
+          <div class="rule-content">
+            <strong>Silence, concentration et discipline</strong>
+            <span>Comportement professionnel obligatoire en tout temps au sein du bloc opératoire.</span>
+          </div>
+          <span class="rule-tag tag-important">IMPORTANT</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R08</span>
+          <div class="rule-content">
+            <strong>Aucun patient ne quitte la table sans validation médicale</strong>
+            <span>Toute levée du patient doit être approuvée par le médecin responsable.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R09</span>
+          <div class="rule-content">
+            <strong>Interdiction de quitter le bloc sans relais</strong>
+            <span>Si un patient est sous surveillance, un relais médical doit être assuré avant tout départ.</span>
+          </div>
+          <span class="rule-tag tag-critical">CRITIQUE</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R10</span>
+          <div class="rule-content">
+            <strong>Accompagnateurs au hall uniquement</strong>
+            <span>Dérogation possible pour service public / famille proche avec autorisation médicale formelle.</span>
+          </div>
+          <span class="rule-tag tag-standard">STANDARD</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">R11</span>
+          <div class="rule-content">
+            <strong>Interdiction de manger ou boire dans le bloc</strong>
+            <span>Règle d'hygiène absolue — aucune exception.</span>
+          </div>
+          <span class="rule-tag tag-important">IMPORTANT</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── TENUE ─── -->
+    <section id="tenue">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <div class="icon">🥼</div>
+        <h2>TENUE & HYGIÈNE</h2>
+      </div>
+
+      <p class="desc">La tenue du bloc doit être stérile et portée uniquement pendant les examens et interventions. Aucun accessoire personnel n'est toléré.</p>
+
+      <h3 class="sub">Équipement obligatoire</h3>
+      <div class="tenue-checklist">
+        <div class="check-item">Charlotte / coiffe chirurgicale couvrant entièrement les cheveux</div>
+        <div class="check-item">Masque chirurgical correctement ajusté sur le nez et la bouche</div>
+        <div class="check-item">Gants chirurgicaux stériles (changer entre chaque intervention)</div>
+        <div class="check-item">Surblouse chirurgicale stérile à usage unique</div>
+        <div class="check-item">Tenue de bloc (pantalon + tunique) spécifique au bloc</div>
+        <div class="check-item">Lunettes de protection si risque de projection</div>
+      </div>
+
+      <h3 class="sub">Protocole de lavage chirurgical des mains</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Préparation</h4>
+            <p>Retirer montres, bagues et bracelets. Ongles courts et sans vernis obligatoires.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Rinçage initial</h4>
+            <p>Mouiller les mains et les avant-bras jusqu'aux coudes à l'eau tiède.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Application du savon antiseptique</h4>
+            <p>Appliquer le savon chirurgical et frotter pendant 3 à 5 minutes en insistant sur les espaces inter-digitaux, les ongles et les poignets.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Rinçage soigneux</h4>
+            <p>Rincer abondamment des mains vers les coudes. Ne jamais revenir en arrière.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Séchage stérile</h4>
+            <p>Sécher avec une compresse stérile en allant des mains vers les coudes. Jeter immédiatement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <strong>Rappel :</strong> Changer de gants et de masque avant chaque intervention. Utiliser uniquement du matériel parfaitement stérilisé. Un gant percé = arrêt et remplacement immédiat.
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── MATÉRIEL ─── -->
+    <section id="materiel">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <div class="icon">🔪</div>
+        <h2>MATÉRIEL CHIRURGICAL</h2>
+      </div>
+
+      <p class="desc">Le matériel chirurgical regroupe l'ensemble des instruments utilisés lors d'une intervention afin d'inciser, explorer, manipuler, suturer ou contrôler un saignement.</p>
+
+      <h3 class="sub">Instruments de coupe</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🔪 Scalpel</h3>
+          <p>Utilisé pour l'<strong>incision précise des tissus</strong>. Il en existe différentes tailles selon la profondeur et le type d'incision. Manipuler avec précaution — lame toujours orientée loin de soi.</p>
+        </div>
+        <div class="card">
+          <h3>✂️ Ciseaux chirurgicaux</h3>
+          <p><strong>Section des tissus ou des fils de suture</strong>. Les ciseaux de Mayo sont utilisés pour les tissus épais, les ciseaux de Metzenbaum pour les tissus fins et délicats.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Instruments de préhension et dissection</h3>
+      <div class="grid-3">
+        <div class="card">
+          <h3>🤏 Pince de Kocher</h3>
+          <p><strong>Maintien ferme</strong> des tissus ou retrait de corps étrangers. Mords crantés — attention aux traumatismes tissulaires.</p>
+        </div>
+        <div class="card">
+          <h3>🤏 Pince Adson</h3>
+          <p><strong>Manipulation fine</strong> des tissus. Utilisée pour les zones délicates nécessitant précision et contrôle.</p>
+        </div>
+        <div class="card">
+          <h3>🤏 Pince anatomique</h3>
+          <p><strong>Préhension délicate</strong> sans traumatiser les tissus. Mords lisses — idéale pour tissus fragiles.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Instruments d'exposition</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>📐 Écarteurs</h3>
+          <p><strong>Maintien des berges d'une plaie ouvertes</strong> pour faciliter l'accès chirurgical. Écarteurs de Farabeuf pour les plaies superficielles, écarteurs autostatiques pour les interventions longues.</p>
+        </div>
+        <div class="card">
+          <h3>🩸 Pinces hémostatiques</h3>
+          <p><strong>Compression des vaisseaux</strong> pour stopper un saignement. Clamp des vaisseaux avant ligature. Ne jamais laisser une pince hémostatique sans contrôle.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Matériel de suture</h3>
+      <div class="grid-3">
+        <div class="card">
+          <h3>🧵 Porte-aiguille</h3>
+          <p><strong>Maintien de l'aiguille lors de la suture.</strong> Saisir l'aiguille au tiers proximal. Mouvement du poignet en pronation/supination.</p>
+        </div>
+        <div class="card">
+          <h3>🧵 Fils de suture</h3>
+          <p><strong>Résorbables</strong> : se dissolvent seuls (PGA, Vicryl) — utilisés pour les plans profonds.<br><strong>Non résorbables</strong> : nylon, soie — utilisés pour la peau.</p>
+        </div>
+        <div class="card">
+          <h3>📎 Agrafeuse chirurgicale</h3>
+          <p><strong>Fermeture rapide</strong> de plaies superficielles. Rapide et solide. Agrafes à retirer selon délai prescrit.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Matériel d'irrigation & aspiration</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>💧 Sérum physiologique (NaCl 0,9%)</h3>
+          <p><strong>Lavage des plaies</strong> avant fermeture. Irriguer abondamment pour éliminer tous les débris, corps étrangers et contaminants. Température ambiante ou tiède.</p>
+        </div>
+        <div class="card">
+          <h3>🌀 Système d'aspiration</h3>
+          <p><strong>Évacuation du sang et des liquides</strong> pendant l'intervention. Maintenir le champ opératoire propre et visible. Vérifier le bon fonctionnement avant l'opération.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Matériel d'asepsie</h3>
+      <div class="grid-3">
+        <div class="card">
+          <h3>🟤 Bétadine Rouge (Scrub)</h3>
+          <p>Lavage et décontamination initiale. <strong>Utilisée pour le nettoyage préopératoire.</strong> Frotter vigoureusement la zone à opérer.</p>
+        </div>
+        <div class="card">
+          <h3>🟡 Bétadine Jaune</h3>
+          <p><strong>Solution antiseptique.</strong> Appliquée après le scrub pour la désinfection finale du champ opératoire. Ne pas rincer.</p>
+        </div>
+        <div class="card">
+          <h3>📄 Champs stériles</h3>
+          <p><strong>Délimitation de la zone opératoire stérile.</strong> Placer avant toute intervention. Ne jamais franchir la limite des champs une fois en place.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── IMAGERIE ─── -->
+    <section id="imagerie">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <div class="icon">🩻</div>
+        <h2>IMAGERIE MÉDICALE</h2>
+      </div>
+
+      <p class="desc">L'imagerie médicale regroupe l'ensemble des techniques permettant de visualiser les structures internes du corps afin de poser un diagnostic, évaluer la gravité d'une lésion ou guider un geste thérapeutique.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>Principe</th>
+              <th>Indications principales</th>
+              <th>Avantages</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Radiographie</td>
+              <td>Rayons X traversant le corps. Os en blanc, tissus en sombre.</td>
+              <td>Fractures, corps étrangers radio-opaques, pneumothorax</td>
+              <td>Rapide, accessible, premier examen de référence</td>
+            </tr>
+            <tr>
+              <td>Scanner (TDM)</td>
+              <td>Rayons X + reconstruction informatique en coupes 3D</td>
+              <td>Traumatismes graves, hémorragies internes, lésions organiques</td>
+              <td>Très précis, visualisation 3D, rapide en urgence</td>
+            </tr>
+            <tr>
+              <td>IRM</td>
+              <td>Champ magnétique + ondes radio. Aucun rayon X.</td>
+              <td>Cerveau, moelle épinière, articulations, tissus mous</td>
+              <td>Très précise pour tissus mous, sans radiation</td>
+            </tr>
+            <tr>
+              <td>Échographie</td>
+              <td>Ultrasons à haute fréquence. Aucun rayonnement.</td>
+              <td>Organes abdominaux, vaisseaux, guidage de ponctions</td>
+              <td>Portable, temps réel, pas de radiation, sans danger</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">📌</span>
+        <div>
+          <strong>À retenir :</strong> Les examens complémentaires doivent être demandés selon le contexte clinique et la pertinence diagnostique. Ne jamais réaliser un examen "par défaut" sans indication précise.
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── PRÉ-OP ─── -->
+    <section id="pre-op">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <div class="icon">📝</div>
+        <h2>PHASE PRÉ-OPÉRATOIRE</h2>
+      </div>
+
+      <p class="desc">La phase pré-opératoire conditionne le succès de toute intervention. Une préparation rigoureuse est non-négociable.</p>
+
+      <h3 class="sub">Bilan pré-opératoire</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>📋 Évaluation clinique</h3>
+          <ul>
+            <li>Anamnèse complète du patient</li>
+            <li>Constantes vitales (tension, pouls, saturation, température)</li>
+            <li>Évaluation du terrain (allergies, traitements en cours)</li>
+            <li>Score ASA si applicable</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🩺 Examens pré-op</h3>
+          <ul>
+            <li>Bilan sanguin selon contexte</li>
+            <li>Groupe sanguin + rhésus</li>
+            <li>Imagerie selon le cas clinique</li>
+            <li>ECG si indiqué</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="sub">Anesthésie — Types</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>💉 Anesthésie Locale</h3>
+          <p>Infiltration d'un anesthésique local dans la zone à opérer. Le patient reste conscient. Utilisée pour les interventions superficielles mineures (sutures, petites excisions).</p>
+        </div>
+        <div class="card">
+          <h3>😴 Anesthésie Générale</h3>
+          <p>Perte de conscience complète du patient. Nécessite une intubation trachéale et une ventilation assistée. Utilisée pour toutes les interventions majeures.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">L'intubation trachéale</h3>
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <strong>Geste technique — réservé au personnel qualifié.</strong> L'intubation trachéale consiste à introduire un tube dans la trachée afin d'assurer la perméabilité des voies respiratoires et de mettre en place une ventilation mécanique.
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Pré-oxygénation</h4><p>Administrer de l'O₂ pur au masque pendant 3 à 5 minutes avant l'induction.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Induction anesthésique</h4><p>Injection des agents d'induction IV. Attendre la perte du réflexe des cils.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Laryngoscopie & intubation</h4><p>Visualisation des cordes vocales au laryngoscope. Introduction de la sonde trachéale entre les cordes vocales.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Vérification du placement</h4><p>Auscultation pulmonaire bilatérale. Contrôle par capnographie (CO₂ en fin d'expiration).</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Fixation & ventilation</h4><p>Fixer la sonde. Connecter au ventilateur mécanique. Surveiller la SpO₂ en continu.</p></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Désinfection préopératoire</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🟤 Étape 1 — Bétadine Rouge (Scrub)</h3>
+          <p>Nettoyage et désinfection initiale. Frotter vigoureusement la zone opératoire en spirale du centre vers la périphérie pendant au moins 3 minutes. Rincer à l'eau stérile.</p>
+        </div>
+        <div class="card">
+          <h3>🟡 Étape 2 — Bétadine Jaune</h3>
+          <p>Application de la solution antiseptique après séchage. Laisser agir sans rincer. Pose des champs stériles immédiatement après séchage complet.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── PER-OP ─── -->
+    <section id="per-op">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <div class="icon">⚕️</div>
+        <h2>PHASE PER-OPÉRATOIRE</h2>
+      </div>
+
+      <p class="desc">Les 7 étapes opératoires doivent être suivies dans l'ordre strict. Aucune étape ne peut être sautée ou raccourcie.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Installation et préparation</h4>
+            <ul>
+              <li>Mise en place des capteurs de surveillance (cardiaque, tension, saturation)</li>
+              <li>Pose d'une voie veineuse pour perfusion</li>
+              <li>Positionnement correct du patient sur la table</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Anesthésie et sécurisation des voies aériennes</h4>
+            <ul>
+              <li>Induction de l'anesthésie générale ou locale selon le cas</li>
+              <li>Intubation et ventilation assistée si anesthésie générale</li>
+              <li>Vérification de la profondeur d'anesthésie</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Préparation du champ opératoire</h4>
+            <ul>
+              <li>Désinfection Bétadine Rouge puis Bétadine Jaune</li>
+              <li>Pose des champs stériles autour de la zone opératoire</li>
+              <li>Vérification de la stérilité de tous les instruments</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Incision et exploration</h4>
+            <ul>
+              <li>Incision au scalpel selon le tracé prévu</li>
+              <li>Hémostase immédiate des saignements au fil ou à la pince</li>
+              <li>Exploration systématique de la zone pour identifier toutes les lésions</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Nettoyage et exploration finale</h4>
+            <ul>
+              <li>Lavage abondant au sérum physiologique</li>
+              <li>Aspiration des liquides et débris</li>
+              <li>Retrait des corps étrangers à la pince, avec rinçage entre chaque extraction</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">6</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Contrôle final de la zone</h4>
+            <ul>
+              <li>Retrait des écarteurs</li>
+              <li>Nouvelle désinfection complète avant fermeture</li>
+              <li>Vérification de l'absence de saignement actif</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">7</div></div>
+          <div class="step-body">
+            <h4>Fermeture</h4>
+            <ul>
+              <li>Fermeture plan par plan (plans profonds en fils résorbables)</li>
+              <li>Fermeture cutanée par suture, agrafes ou colle selon indication</li>
+              <li>Pansement stérile protecteur</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">🚨</span>
+        <div>
+          <strong>INTERDITS pendant l'intervention :</strong>
+        </div>
+      </div>
+      <div class="forbidden-grid">
+        <div class="forbidden-item">Retirer une arme blanche encore en place sans évaluation scanner</div>
+        <div class="forbidden-item">Fermer sans lavage abondant au sérum physiologique</div>
+        <div class="forbidden-item">Travailler sans vision claire du champ opératoire</div>
+        <div class="forbidden-item">Changer de côté sans réorganiser les champs stériles</div>
+        <div class="forbidden-item">Laisser une pince hémostatique sans ligature</div>
+        <div class="forbidden-item">Utiliser du matériel dont la stérilité est douteuse</div>
+        <div class="forbidden-item">Fermer avec un corps étranger potentiellement oublié</div>
+        <div class="forbidden-item">Quitter la salle sans relais si patient encore ouvert</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── POST-OP ─── -->
+    <section id="post-op">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <div class="icon">🔄</div>
+        <h2>PHASE POST-OPÉRATOIRE</h2>
+      </div>
+
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <strong>La phase post-opératoire est critique.</strong> Des complications peuvent encore survenir : saignement, trouble respiratoire, réaction à l'anesthésie. Surveillance rapprochée obligatoire.
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Transfert en salle de réveil</h4>
+            <p>Le patient est transféré immédiatement après la fermeture. Surveillance continue de la SpO₂, de la tension artérielle et de la fréquence cardiaque.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Contrôle régulier des constantes</h4>
+            <p>Tension, pouls, saturation, température — toutes les 15 minutes pendant la première heure, puis toutes les 30 minutes selon l'état du patient.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Surveillance du pansement</h4>
+            <p>Vérifier l'absence de saignement, de déhiscence ou de signes infectieux. Tout suintement anormal doit être signalé immédiatement.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Prescription post-opératoire</h4>
+            <p>Antalgiques adaptés, antibioprophylaxie si indiquée, anticoagulants selon contexte. Consigner toutes les prescriptions dans le dossier médical.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div></div>
+          <div class="step-body">
+            <h4>Validation médicale avant sortie de salle</h4>
+            <p>Le patient ne quitte pas la salle de réveil sans validation médicale explicite. Critères de sortie : patient réveillé, constantes stables, douleur contrôlée.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── BRÛLURES ─── -->
+    <section id="brulures">
+      <div class="section-header">
+        <span class="section-num">09</span>
+        <div class="icon">🔥</div>
+        <h2>LES BRÛLURES</h2>
+      </div>
+
+      <p class="desc">La gravité d'une brûlure dépend de la profondeur, de la surface atteinte (règle des 9 de Wallace) et de la cause. Chaque degré correspond à un niveau d'atteinte tissulaire distinct.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Degré</th>
+              <th>Structures atteintes</th>
+              <th>Aspect clinique</th>
+              <th>Prise en charge</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pill" style="background:rgba(255,224,61,0.15);color:#ffe03d;border:1px solid rgba(255,224,61,0.3)">1er degré</span></td>
+              <td>Épiderme uniquement</td>
+              <td>Rougeur, douleur, légère tuméfaction — <strong>sans cloques</strong></td>
+              <td>Refroidir la zone, pommade apaisante, sérum physiologique, Dolirex</td>
+            </tr>
+            <tr>
+              <td><span class="pill" style="background:rgba(255,159,28,0.15);color:#ff9f1c;border:1px solid rgba(255,159,28,0.3)">2e degré</span></td>
+              <td>Épiderme + derme superficiel</td>
+              <td>Cloques, rougeur intense, douleur marquée</td>
+              <td>Refroidir à l'eau tempérée, NE PAS percer les cloques, pansement stérile, Ibufrelan</td>
+            </tr>
+            <tr>
+              <td><span class="pill" style="background:rgba(255,59,59,0.15);color:#ff3b3b;border:1px solid rgba(255,59,59,0.3)">3e degré</span></td>
+              <td>Destruction épiderme + derme complet</td>
+              <td>Peau blanche ou carbonisée, <strong>insensible</strong> (nerf détruit)</td>
+              <td>Chirurgie obligatoire : greffe cutanée. Anesthésie générale. Morphaly si douleurs.</td>
+            </tr>
+            <tr>
+              <td><span class="pill" style="background:rgba(192,57,43,0.2);color:#e74c3c;border:1px solid rgba(192,57,43,0.4)">4e degré</span></td>
+              <td>Muscles, tendons, os</td>
+              <td>Carbonisation totale, pas de douleur locale, tissus profonds exposés</td>
+              <td>URGENCE ABSOLUE — stabilisation, transfert centre spécialisé, amputation possible</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub">Protocole chirurgical pour brûlures 3e/4e degré</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Anesthésie générale</h4><p>Obligatoire pour tout acte chirurgical sur brûlure profonde. Intubation et ventilation.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Nettoyage chirurgical</h4><p>Lavage et désinfection complète de la zone brûlée au sérum physiologique + Bétadine. Débridement des tissus nécrosés.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Greffe cutanée (3e degré)</h4><p>Application de la greffe sur la zone brûlée, fixation par sutures ou agrafes. Pansement de tulle gras protecteur.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body"><h4>Résection + reconstruction (4e degré)</h4><p>Résections profondes des zones nécrotiques. Greffes cutanées étendues. Amputation si atteinte irréversible.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div></div>
+          <div class="step-body"><h4>Prescriptions post-op</h4><p>Antalgiques/antipyrétiques : Aspirex, Dolirex, Ibufrelan ou Morphaly selon intensité douloureuse.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── CAS CLINIQUES ─── -->
+    <section id="cas">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <div class="icon">📁</div>
+        <h2>CAS CLINIQUES</h2>
+      </div>
+
+      <p class="desc">Protocoles spécifiques pour les cas les plus fréquents au GSS. Connaître ces protocoles par cœur avant d'entrer en salle.</p>
+
+      <!-- CAS 1 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🔪 Plaie à l'arme blanche</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-critical">URGENT</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body open">
+          <div class="alert alert-danger">
+            <span class="alert-icon">🚨</span>
+            <div><strong>NE JAMAIS retirer l'arme blanche si elle est encore en place</strong> — risque d'hémorragie massive par effet tampon.</div>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Stabilisation initiale</h4><p>Constantes vitales, voie veineuse, perfusion. Évaluer si arme encore en place.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Imagerie obligatoire</h4><p>Scanner pour déterminer si un organe a été touché et évaluer le risque hémorragique avant tout geste chirurgical.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Anesthésie</h4><p>Locale pour plaies superficielles. Générale si lésions profondes ou organe touché.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Exploration chirurgicale</h4><p>Exploration de la trajectoire, contrôle hémostatique, réparation des lésions identifiées.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">5</div></div>
+            <div class="step-body"><h4>Lavage & fermeture</h4><p>Irrigation abondante au sérum physiologique. Fermeture plan par plan. Antibiotiques en post-op.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAS 2 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🔫 Plaie par balle</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-critical">CRITIQUE</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body open">
+          <div class="alert alert-danger">
+            <span class="alert-icon">🚨</span>
+            <div><strong>Priorité absolue : contrôle du saignement et des voies aériennes.</strong> Toujours réaliser un scanner avant chirurgie.</div>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>ABCDE</h4><p>Airway — Breathing — Circulation — Disability — Exposure. Évaluation rapide de l'état général.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Contrôle hémorragique</h4><p>Compression directe des plaies accessibles. Garrot si membre. Remplissage vasculaire rapide.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Scanner corps entier</h4><p>Déterminer le trajet du projectile, les organes touchés, et la présence d'une hémorragie interne active.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Chirurgie</h4><p>Anesthésie générale. Exploration des lésions. Réparation vasculaire si nécessaire. Extraction du projectile si accessible et sans risque.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">5</div></div>
+            <div class="step-body"><h4>Post-op</h4><p>Surveillance en unité de soins intensifs si état grave. Antibiotiques systématiques (Amoxilar).</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAS 3 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🦴 Fracture simple (fermée)</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-medium">STANDARD</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body">
+          <p class="desc">Cassure de l'os sans ouverture de la peau. Gravité selon l'os touché et le déplacement des fragments.</p>
+          <div class="grid-2">
+            <div class="card"><h3>📋 Évaluation</h3><ul><li>Radiographie en 2 incidences</li><li>Évaluation du déplacement</li><li>Neurovasculaire distal (pouls, sensibilité)</li></ul></div>
+            <div class="card"><h3>⚕️ Traitement</h3><ul><li>Anesthésie locale ou générale selon cas</li><li>Réduction si nécessaire</li><li>Contention plâtrée ou chirurgicale (ostéosynthèse)</li></ul></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAS 4 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🦴 Fracture ouverte</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-critical">URGENCE</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="alert alert-danger">
+            <span class="alert-icon">🚨</span>
+            <div><strong>Urgence médicale — risque infectieux et hémorragique majeur.</strong> L'os est en contact avec l'extérieur : risque de contamination immédiat.</div>
+          </div>
+          <div class="grid-2">
+            <div class="card"><h3>🚨 Priorités</h3><ul><li>Contrôle du saignement en urgence</li><li>Protection de la plaie (champ stérile)</li><li>Bilan vasculaire et nerveux</li><li>Antibiotiques IV sans délai (Amoxilar)</li></ul></div>
+            <div class="card"><h3>⚕️ Chirurgie</h3><ul><li>Parage chirurgical extensif</li><li>Lavage au sérum physiologique (minimum 6L)</li><li>Ostéosynthèse</li><li>Fermeture retardée si contamination massive</li></ul></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAS 5 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🌊 Noyade — Sur le terrain</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-critical">CRITIQUE</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="steps">
+            <div class="step"><div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Extraction sécurisée</h4><p>Assurer sa propre sécurité. Extraire le noyé de l'eau sans se mettre en danger.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Prévention hypothermie</h4><p>Retirer les vêtements mouillés. Couvrir avec une couverture de survie. Éviter le froid.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+            <div class="step-body"><h4>Évaluation des fonctions vitales</h4><p>Conscience, respiration, pouls. Si arrêt cardiaque : RCP immédiate selon protocole.</p></div></div>
+            <div class="step"><div class="step-line"><div class="step-dot">4</div></div>
+            <div class="step-body"><h4>Transport vers l'hôpital</h4><p>En position latérale de sécurité si inconscient mais respirant. Surveillance continue jusqu'à l'arrivée.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAS 6 -->
+      <div class="case-card">
+        <div class="case-header" onclick="toggleCase(this)">
+          <h3>🌊 Noyade — À l'hôpital</h3>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="case-urgency urgency-high">URGENT</span>
+            <span class="case-toggle">▼</span>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="grid-2">
+            <div class="card"><h3>📋 Évaluation initiale</h3><ul><li>Durée de privation d'oxygène</li><li>Température corporelle</li><li>État neurologique (score de Glasgow)</li><li>Gaz du sang + bilan biologique complet</li></ul></div>
+            <div class="card"><h3>⚕️ Prise en charge</h3><ul><li>Intubation si détresse respiratoire</li><li>Réchauffement progressif si hypothermie</li><li>Traitement de l'œdème pulmonaire si présent</li><li>Surveillance neurologique rapprochée</li></ul></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── PHARMACOLOGIE ─── -->
+    <section id="pharma">
+      <div class="section-header">
+        <span class="section-num">11</span>
+        <div class="icon">💊</div>
+        <h2>PHARMACOLOGIE</h2>
+      </div>
+
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <strong>Rappel :</strong> Certains médicaments sont essentiels avant, pendant et après une intervention. Une administration inadaptée peut entraîner des complications graves. Respecter strictement les prescriptions.
+        </div>
+      </div>
+
+      <h3 class="sub">Antalgiques</h3>
+      <div class="drug-grid">
+        <div class="drug-card">
+          <div class="drug-name">Dolirex</div>
+          <div class="drug-class">Antalgique — palier 1</div>
+          <div class="drug-info">Douleurs légères à modérées. Antipyrétique. Première ligne post-opératoire.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Aspirex</div>
+          <div class="drug-class">Antalgique / Antipyrétique</div>
+          <div class="drug-info">Douleurs légères, fièvre. Anti-inflammatoire léger. Contre-indiqué si saignement actif.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Ibufrelan</div>
+          <div class="drug-class">Anti-inflammatoire / Antalgique</div>
+          <div class="drug-info">AINS. Douleurs inflammatoires, brûlures de 2e degré. Prendre avec protection gastrique.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Morphaly</div>
+          <div class="drug-class">Morphinique — palier 3</div>
+          <div class="drug-info">Douleurs intenses. Post-opératoire lourd. Sous prescription stricte. Surveillance respiratoire.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Spazetol</div>
+          <div class="drug-class">Antispasmodique</div>
+          <div class="drug-info">Douleurs spasmodiques digestives ou urinaires. Complément antalgique.</div>
+        </div>
+      </div>
+
+      <h3 class="sub">Antibiotiques & Anticoagulants</h3>
+      <div class="drug-grid">
+        <div class="drug-card">
+          <div class="drug-name">Amoxilar</div>
+          <div class="drug-class">Antibiotique — pénicilline</div>
+          <div class="drug-info">Antibioprophylaxie chirurgicale, infections post-opératoires, plaies par balle, fractures ouvertes.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Hémocline</div>
+          <div class="drug-class">Anticoagulant</div>
+          <div class="drug-info">Prévention des thromboses post-opératoires. Ne pas utiliser si saignement actif incontrôlé.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Arnilen</div>
+          <div class="drug-class">Traitement spécialisé</div>
+          <div class="drug-info">Prescription médicale obligatoire. Usage spécifique selon indication du médecin responsable.</div>
+        </div>
+      </div>
+
+      <h3 class="sub">Protecteurs & Digestifs</h3>
+      <div class="drug-grid">
+        <div class="drug-card">
+          <div class="drug-name">Gastrex</div>
+          <div class="drug-class">Protecteur gastrique</div>
+          <div class="drug-info">Systématique avec AINS (Ibufrelan). Prévient les ulcères gastriques.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Omépralix</div>
+          <div class="drug-class">Inhibiteur pompe à protons</div>
+          <div class="drug-info">Traitement du reflux, protection gastrique renforcée. Prendre à jeun le matin.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Nauzéfix</div>
+          <div class="drug-class">Antiémétique</div>
+          <div class="drug-info">Nausées et vomissements post-opératoires. Fréquents après anesthésie générale.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Diaryl</div>
+          <div class="drug-class">Anti-diarrhéique</div>
+          <div class="drug-info">Diarrhées aiguës. Rétablissement du transit post-opératoire.</div>
+        </div>
+      </div>
+
+      <h3 class="sub">Voies respiratoires</h3>
+      <div class="drug-grid">
+        <div class="drug-card">
+          <div class="drug-name">Aérolis</div>
+          <div class="drug-class">Bronchodilatateur</div>
+          <div class="drug-info">Asthme, bronchospasme, difficultés respiratoires. En urgence ou en prévention post-opératoire.</div>
+        </div>
+        <div class="drug-card">
+          <div class="drug-name">Flurizen</div>
+          <div class="drug-class">Voies respiratoires</div>
+          <div class="drug-info">Traitement complémentaire des affections respiratoires. Selon prescription médicale.</div>
+        </div>
+      </div>
+
+      <h3 class="sub">Psychotropes <span style="font-size:12px;color:var(--red);font-family:'DM Mono',monospace;letter-spacing:1px">PRESCRIPTION STRICTE — MEMBRE MHS UNIQUEMENT</span></h3>
+      <div class="alert alert-danger">
+        <span class="alert-icon">🚨</span>
+        <div>
+          <strong>Psychotropes :</strong> Ces médicaments peuvent entraîner des effets secondaires importants, un risque de dépendance et des modifications du comportement. Un suivi médical régulier par un membre MHS habilité est indispensable. Prescription strictement encadrée.
+        </div>
+      </div>
+      <div class="drug-grid">
+        <div class="drug-card" style="border-color:rgba(255,59,59,0.2)">
+          <div class="drug-name" style="color:var(--red)">Calmoryl</div>
+          <div class="drug-class">Anxiolytique</div>
+          <div class="drug-info">Anxiety sévère. Prescription MHS uniquement.</div>
+        </div>
+        <div class="drug-card" style="border-color:rgba(255,59,59,0.2)">
+          <div class="drug-name" style="color:var(--red)">Dorsiven</div>
+          <div class="drug-class">Hypnotique</div>
+          <div class="drug-info">Troubles du sommeil sévères. Prescription MHS uniquement.</div>
+        </div>
+        <div class="drug-card" style="border-color:rgba(255,59,59,0.2)">
+          <div class="drug-name" style="color:var(--red)">Serenafix</div>
+          <div class="drug-class">Stabilisant d'humeur</div>
+          <div class="drug-info">Troubles bipolaires, agitation. Prescription MHS uniquement.</div>
+        </div>
+        <div class="drug-card" style="border-color:rgba(255,59,59,0.2)">
+          <div class="drug-name" style="color:var(--red)">Psychoril</div>
+          <div class="drug-class">Antipsychotique</div>
+          <div class="drug-info">Psychoses, états dissociatifs. Prescription MHS uniquement.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── GROUPES SANGUINS ─── -->
+    <section id="sang">
+      <div class="section-header">
+        <span class="section-num">12</span>
+        <div class="icon">🩸</div>
+        <h2>GROUPES SANGUINS</h2>
+      </div>
+
+      <p class="desc">Compatibilité transfusionnelle. Une transfusion incompatible peut être fatale. Toujours vérifier le groupe avant toute transfusion.</p>
+
+      <div class="blood-grid">
+        <div class="blood-card">
+          <div class="blood-type">A+</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">A+, A−, O+, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">A−</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">A−, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">B+</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">B+, B−, O+, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">B−</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">B−, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">AB+</div>
+          <div class="blood-label">Receveur universel</div>
+          <div class="blood-compat">Tous les groupes</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">AB−</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">A−, B−, AB−, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">O+</div>
+          <div class="blood-label">Peut recevoir de</div>
+          <div class="blood-compat">O+, O−</div>
+        </div>
+        <div class="blood-card">
+          <div class="blood-type">O−</div>
+          <div class="blood-label">Donneur universel</div>
+          <div class="blood-compat">Donne à tous — reçoit O− uniquement</div>
+        </div>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">🚨</span>
+        <div>
+          <strong>En urgence vitale sans groupe connu :</strong> Utiliser du sang O− (donneur universel). Prendre le groupe sanguin dès que possible pour adapter la transfusion.
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── TARIFICATION ─── -->
+    <section id="tarif">
+      <div class="section-header">
+        <span class="section-num">13</span>
+        <div class="icon">💰</div>
+        <h2>TARIFICATION DES ACTES</h2>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Niveau 1</div>
+          <div class="price-amount">2700$</div>
+          <div class="price-desc">Fracture, membre déplacé, noyade, lavage d'estomac</div>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Niveau 2</div>
+          <div class="price-amount">2950$</div>
+          <div class="price-desc">Petit & moyen calibre, blessure à l'arme blanche</div>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Niveau 3</div>
+          <div class="price-amount">3200$</div>
+          <div class="price-desc">Gros calibre, petite chirurgie spécialisée</div>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Niveau 4</div>
+          <div class="price-amount">3700$</div>
+          <div class="price-desc">Neurochirurgie, transplantation, greffe de peau, opération poussée</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── MFA ─── -->
+    <section id="mfa">
+      <div class="section-header">
+        <span class="section-num">14</span>
+        <div class="icon">📂</div>
+        <h2>MFA — DOSSIERS MÉDICAUX</h2>
+      </div>
+
+      <p class="desc">Le MFA (Managerial File Application) est le système de gestion des dossiers médicaux du GSS. Chaque intervention doit obligatoirement faire l'objet d'un dossier complet.</p>
+
+      <h3 class="sub">Contenu obligatoire du dossier médical</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h3>👨‍⚕️ Identité du médecin</h3>
+          <ul>
+            <li>Prénom <strong>(obligatoire)</strong></li>
+            <li>Nom <strong>(obligatoire)</strong></li>
+            <li>Grade : Directeur / Médecin / Interne</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🧑 Identité du patient</h3>
+          <ul>
+            <li>Prénom et nom</li>
+            <li>Numéro de sécurité sociale (identifiant unique)</li>
+            <li>Groupe sanguin</li>
+            <li>Allergies connues</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="sub">Procédure de création du dossier</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"><div class="step-dot">1</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Remplir le dossier d'intervention</h4>
+            <p>Saisir toutes les informations médicales, les prescriptions et le compte-rendu opératoire.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">2</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Vérification finale</h4>
+            <p>Relire attentivement chaque élément avant validation. Aucune modification possible après validation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">3</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Générer l'ordonnance (Canva)</h4>
+            <p>L'ordonnance est générée automatiquement. Modifier votre identité en haut à gauche et la date.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">4</div><div class="step-connector"></div></div>
+          <div class="step-body">
+            <h4>Publication sur l'intranet</h4>
+            <p>Accéder à <code>#fpc-gss</code> → <code>fa-opérations</code>. Publier le dossier dans le bon fil de discussion.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"><div class="step-dot">5</div></div>
+          <div class="step-body">
+            <h4>Joindre l'ordonnance</h4>
+            <p>Ajouter l'ordonnance en pièce jointe dans le message du fil de discussion correspondant au patient.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>
+          <strong>Message automatique :</strong> Une fois le dossier validé, un message généré automatiquement apparaît dans le fil de discussion avec les informations principales de l'intervention. Vérifier que les données affichées sont correctes avant de le laisser.
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── RÉCAP FINAL ─── -->
+    <section>
+      <div class="alert alert-success">
+        <span class="alert-icon">🏆</span>
+        <div>
+          <strong>Mot du chef de service :</strong> Ce manuel vous a permis d'acquérir les bases essentielles pour intervenir efficacement, aussi bien sur le terrain qu'en salle d'opération. La maîtrise de ces fondamentaux constitue la première étape vers une pratique médicale rigoureuse et sécurisée. <em>Vous n'êtes jamais seuls face à une situation — n'hésitez pas à demander de l'aide.</em>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <footer>
+    <p>© GENERAL SURGERY SERVICE — GUIDE FPC OFFICIEL</p>
+    <p><span class="live-dot"></span> Document interne — Réservé aux membres GSS</p>
+  </footer>
+
+</main>
+
+<script>
+  // Toggle case clinique
+  function toggleCase(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.case-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
